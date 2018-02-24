@@ -57,7 +57,8 @@ class TwitterBotService
 
   def quote_tweet(status, tweet)
     
-    tweetUrl = "https://twitter.com/i/web/status/#{tweet.id}"
+    tweet.user.screen_name
+    tweetUrl = "https://twitter.com/#{tweet.user.screen_name}/status/#{tweet.id}"
 
     @twitter_client.update("#{status} #{tweetUrl}")
 
