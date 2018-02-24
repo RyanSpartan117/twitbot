@@ -10,7 +10,7 @@ The bot finds twitter posts containing the following keywords: @SpartaGlobal, @t
 ## Prerequisites
 
 Ruby - https://www.ruby-lang.org/en/downloads/
-Git - https://git-scm.com/downloads 
+Git - https://git-scm.com/downloads
 Text Editor
 Terminal / IDE of your choice
 
@@ -27,28 +27,25 @@ In command line run gem install twitter to install the twitter gem.
 ## Running the tests
 
 From the root directory, use the following command to run the tests: `rspec`
-If this doesn’t work, use rspec on the file that you want to test when in the root directory 
+If this doesn’t work, use rspec on the file that you want to test when in the root directory
 e.g. `rspec spec/twitter_bot_service_test.rb`
 
 ## Deployment
-<<todo>>
+todo
 
 ## Contributing
-<<todo>>
+todo
 
 ## Versioning
-<<todo>>
+todo
 
 ## Authors
+todo
 
 ## License
-<<todo>>
+todo
 
 ## Acknowledgements
-
 - CALM
 - IG Group
 - SpartaGlobal
-
-
-  
