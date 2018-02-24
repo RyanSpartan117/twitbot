@@ -3,7 +3,7 @@ require 'yaml'
 
 class TwitterBotService
 
-  attr_accessor :tweets
+  attr_accessor :tweets, :searchArray
 
   def initialize
     env_var = YAML.load_file('data/env.yml')
@@ -13,13 +13,19 @@ class TwitterBotService
       config.access_token =  env_var['access_token']
       config.access_token_secret = env_var['access_token_secret']
     end
+
+    searchArrayFile = YAML.load_file('data/search.yml')
+    @searchArray = searchArrayFile['searchHashTags']
+
     @tweets = []
   end
 
   # provide query string to search for - result types str are -> recent, popular or mixed finally total number of
   # responses to be returned
-  def search_tweets(search_query_string, result_type, number_of_responses)
-    search = @twitter_client.search(search_query_string, result_type: result_type).take(number_of_responses)
+  def search_tweets(result_type, number_of_responses)
+    
+    searchORstring = @searchArray.map { |hashtagElement| hashtagElement.to_s + " OR"}.join(" ")
+    search = @twitter_client.search(searchORstring, result_type: result_type).take(number_of_responses)
 
     if search.empty? == false
       search.each do |tweet|
@@ -38,7 +44,7 @@ class TwitterBotService
     tweetTextHashTags = []
     tweetTextDowncased.gsub(/#[\S]+/) {|matchHash| tweetTextHashTags << matchHash}
     hashtagsToUse - tweetTextHashTags
-    
+
   end
 
   def print_tweets
