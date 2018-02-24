@@ -6,31 +6,19 @@ describe TwitterBotService do
 		@twitterSearch = TwitterBotService.new
 	end
 	it 'gets the right amount of the tests back' do
-		twitterSearchResults = @twitterSearch.search_tweets('@thecalmzone @spartaglobal', 'recent', 3)    
+		twitterSearchResults = @twitterSearch.search_tweets('recent', 3)    
 		expect(twitterSearchResults.length).to eql(3)
 	end
 
 	it 'returns an array' do
-		twitterSearchResults = @twitterSearch.search_tweets('@thecalmzone @spartaglobal', 'recent', 5)    
+		twitterSearchResults = @twitterSearch.search_tweets('recent', 5)    
 		expect(twitterSearchResults).to be_a(Array)
-	end
-
-	it 'includes the correct search parameters' do  	
-		twitterSearchResults = @twitterSearch.search_tweets('@thecalmzone @spartaglobal', 'recent', 5)
-		expect(twitterSearchResults[0].text.downcase).to include("@spartaglobal")
-		expect(twitterSearchResults[0].text.downcase).to include("@thecalmzone")
 	end
 
 	it 'the get available hashtags method shouldnt include anything in the argument string' do
 		testString = "this is a test tweet for mental health #mentalhealth"
 		checkMethod = @twitterSearch.get_available_hashtags(testString)
 		expect(checkMethod).not_to include("#mentalhealth")
-	end
-
-	it 'the get available hashtags method should not remove a hashtag if it is not part of the defined list' do
-		testString = "this is a test tweet for mental health #mentalhealth #cup"
-		checkMethod = @twitterSearch.get_available_hashtags(testString)
-		expect(checkMethod).to include("#cup")
 	end
 
 	it 'the get available hashtags method shouldnt include multiple hashtags in the argument string' do
