@@ -31,6 +31,16 @@ class TwitterBotService
     @tweets
   end
 
+  def get_available_hashtags(tweetText)
+    tweetTextDowncased = tweetText.downcase
+    hashtagsToUse = ["#malementalhealth", "#itsokaynottobeokay", "#stopthestigma", "#letstalkaboutit", "#mentalhealth", "#life", "#menshealth", "#support", "#modernmasculinity", "#motivation"]
+
+    tweetTextHashTags = []
+    tweetTextDowncased.gsub(/#[\S]+/) {|matchHash| tweetTextHashTags << matchHash}
+    hashtagsToUse - tweetTextHashTags
+    
+  end
+
   def print_tweets
     @tweets.each do |tweet|
       p tweet.text
@@ -56,11 +66,21 @@ class TwitterBotService
   end
 
   def quote_tweet(status, tweet)
-    
     tweet.user.screen_name
     tweetUrl = "https://twitter.com/#{tweet.user.screen_name}/status/#{tweet.id}"
 
     @twitter_client.update("#{status} #{tweetUrl}")
+  end
 
+  def autogenerate_status_quote(tweet)
+    
+    hashtags = get_available_hashtags(tweet.text)
+    pickHashtags = hashtags.sample(4)
+    status = pickHashtags.map { |i| i.to_s}.join(" ")
+
+    screenName = tweet.user.screen_name
+    tweetUrl = "https://twitter.com/#{screenName}/status/#{tweet.id}"
+
+    @twitter_client.update("@#{screenName} #{status} #{tweetUrl}")
   end
 end
