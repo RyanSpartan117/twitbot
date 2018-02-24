@@ -1,4 +1,4 @@
-require 'twitter'
+ require 'twitter'
 require 'yaml'
 
 class TwitterBotService
@@ -28,6 +28,7 @@ class TwitterBotService
     else
       raise('Your search returned no tweets')
     end
+    @tweets
   end
 
   def print_tweets
@@ -45,8 +46,20 @@ class TwitterBotService
     end
   end
 
-end
+  def reply_to_tweet(status, tweet)
 
-# x = TwitterBotService.new
-# x.search_tweets('@thecalmzone @spartaglobal', 'recent', 3)
-# x.print_tweets
+    options = {
+      :in_reply_to_status_id => tweet.id
+    }
+
+    @twitter_client.update(status, options)
+  end
+
+  def quote_tweet(status, tweet)
+    
+    tweetUrl = "https://twitter.com/i/web/status/#{tweet.id}"
+
+    @twitter_client.update("#{status} #{tweetUrl}")
+
+  end
+end
